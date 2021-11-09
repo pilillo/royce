@@ -12,3 +12,7 @@ terragrunt run-all apply
 ## Usage
 
 Place your argo-cd applications under the monitored `test/apps` folder.
+
+## Cleanup
+
+Go to the base module and run `terragrunt destroy` to delete the K8s cluster.
