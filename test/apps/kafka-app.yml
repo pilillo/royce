@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kafka
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pilillo/royce.git
+    targetRevision: HEAD
+    path: test/apps/kafka
+    helm:
+      releaseName: kafka
+      valueFiles:
+        - values.yaml
+  destination:
+    namespace: kafka
+    server: "https://kubernetes.default.svc"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
