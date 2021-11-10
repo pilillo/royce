@@ -1,0 +1,11 @@
+apiVersion: v2
+description: A Helm chart for Prometheus community operator
+name: prometheus-operator
+version: 20.0.1
+appVersion: 0.52.0
+type: application
+
+dependencies:
+  - name: kube-prometheus-stack
+    version: 20.0.1
+    repository: https://prometheus-community.github.io/helm-charts
