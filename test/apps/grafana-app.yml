@@ -13,7 +13,7 @@ spec:
       valueFiles:
         - values.yaml
   destination:
-    namespace: prometheus
+    namespace: grafana
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
