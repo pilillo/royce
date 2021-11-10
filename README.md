@@ -1,14 +1,20 @@
 # Royce
 
-Example setup for a K8s cluster (EKS) with ArgoCD as GitOps controller.  
+Example setup for a K8s cluster (EKS) with ArgoCD as a GitOps controller.  
 Royce can be used to quickly get started with a Kappa architecture on K8s.
+
+## Disclaimer
+This is a PoC and not production ready. 
+Much of the application yaml is refined iteratively and may be polished at some point.
 
 ## Setup
 
-Setup K8s with argo and a root-app.
+Setup does start a K8s/EKS cluster using terragrunt and terraform, as well as ArgoCD and a root-app (see [app of apps pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/)).
 ```
 terragrunt run-all apply
 ```
+
+From then on, ArgoCD takes care of syncing the app folder with standard k8s yaml files.
 
 ## Usage
 
