@@ -1,6 +1,6 @@
 # Royce
 
-Example setup for a K8s cluster (EKS) with ArgoCD as GitOps controller.
+Example setup for a K8s cluster (EKS) with ArgoCD as GitOps controller.  
 Royce can be used to quickly get started with a Kappa architecture on K8s.
 
 ## Setup
