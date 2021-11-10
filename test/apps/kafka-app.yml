@@ -9,6 +9,7 @@ spec:
     targetRevision: HEAD
     path: test/apps/kafka
     directory:
+      jsonnet: {}
       recurse: true
   destination:
     namespace: kafka
