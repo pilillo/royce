@@ -8,10 +8,8 @@ spec:
     repoURL: https://github.com/pilillo/royce.git
     targetRevision: HEAD
     path: test/apps/kafka
-    helm:
-      releaseName: kafka
-      #valueFiles:
-      #  - values.yaml
+    directory:
+      recurse: true
   destination:
     namespace: kafka
     server: "https://kubernetes.default.svc"
