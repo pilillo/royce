@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ververica-platform
+spec:
+  destination:
+    namespace: ververica
+    server: "https://kubernetes.default.svc"
+  source:
+    path: test/apps/ververica
+    repoURL: https://github.com/pilillo/royce.git
+    targetRevision: HEAD
+    helm:
+      releaseName: ververica-platform
+      valueFiles:
+        - values.yaml
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true

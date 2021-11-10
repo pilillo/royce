@@ -1,0 +1,56 @@
+ververica-platform:
+  acceptCommunityEditionLicense: true
+
+  vvp:
+    persistence:
+      type: local
+      #datasource: {}
+      # https://docs.ververica.com/installation/helm/configuration.html#persistence-configuration
+      #type: jdbc
+      #datasource:
+      #  url: jdbc:mariadb://mysql.internal:3306/vvp
+      #  username: vvp
+      #  password: password
+
+    blobStorage: {}
+      ## The base URI for universal blob storage.
+      ##
+      ## If unset, universal blob storage is disabled. If credentials are required, add them to the
+      ## "Blob storage credentials" section below.
+      #baseUri: ""
+
+      ## Additional config options for supported blob storage providers.
+      #s3:
+      #  endpoint: ""
+      #  region: ""
+      #oss:
+      #  endpoint: ""
+
+  # https://docs.ververica.com/platform_operations/blob_storage.html
+  ##
+  ## Blob storage credentials
+  ##
+  blobStorageCredentials: {}
+  #  ## Use an existing Kubernetes secret instead of providing credentials in this file. The keys
+  #  ## within the secret must follow the format: `<provider>.<credential>`
+  #  ##
+  #  ## For example: `s3.accessKeyId` or `azure.connectionString`
+  #  existingSecret: ""
+  #
+  #  azure:
+  #    connectionString: ""
+  #  s3:
+  #    accessKeyId: ""
+  #    secretAccessKey: ""
+  #  oss:
+  #    accessKeyId: ""
+  #    accessKeySecret: ""
+  #  hdfs:
+  #    core-site.xml: ""
+  #    hdfs-site.xml: ""
+  #    krb5.conf: ""
+  #    keytab: ""
+  #    keytab-principal: ""
+
+  #securityContext:
+  #  fsGroup: 999
