@@ -10,8 +10,8 @@ spec:
     path: test/apps/kafka
     helm:
       releaseName: kafka
-      valueFiles:
-        - values.yaml
+      #valueFiles:
+      #  - values.yaml
   destination:
     namespace: kafka
     server: "https://kubernetes.default.svc"
