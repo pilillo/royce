@@ -43,7 +43,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: prometheus-server
-    namespace: {{ .Values.namespace }}
+    namespace: {{ .Release.Namespace }}
 
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -69,7 +69,7 @@ spec:
       app: strimzi
   alerting:
     alertmanagers:
-    - namespace: {{ .Values.namespace }}
+    - namespace: {{ .Release.Namespace }}
       name: alertmanager
       port: alertmanager
   additionalScrapeConfigs:
