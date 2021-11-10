@@ -12,6 +12,8 @@ spec:
       releaseName: ververica-platform
       valueFiles:
         - values.yaml
+        - values-vvp-add-metrics.yaml
+        #- values-vvp-add-logging.yaml
   destination:
     namespace: ververica
     server: "https://kubernetes.default.svc"
