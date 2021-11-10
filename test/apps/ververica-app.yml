@@ -3,18 +3,18 @@ kind: Application
 metadata:
   name: ververica-platform
 spec:
-  destination:
-    namespace: ververica
-    server: "https://kubernetes.default.svc"
+  project: default
   source:
-    path: test/apps/ververica
     repoURL: https://github.com/pilillo/royce.git
     targetRevision: HEAD
+    path: test/apps/ververica
     helm:
       releaseName: ververica-platform
       valueFiles:
         - values.yaml
-  project: default
+  destination:
+    namespace: ververica
+    server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
       prune: true
