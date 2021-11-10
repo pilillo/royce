@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pilillo/royce.git
+    targetRevision: HEAD
+    path: test/apps/grafana
+    helm:
+      releaseName: grafana
+      valueFiles:
+        - values.yaml
+  destination:
+    namespace: prometheus
+    server: "https://kubernetes.default.svc"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
