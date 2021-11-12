@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: druid
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pilillo/royce.git
+    targetRevision: HEAD
+    path: test/apps/druid
+    helm:
+      releaseName: druid
+      valueFiles:
+        - values.yaml
+  destination:
+    namespace: druid
+    server: "https://kubernetes.default.svc"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
