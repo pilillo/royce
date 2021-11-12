@@ -8,10 +8,9 @@ spec:
     repoURL: https://github.com/pilillo/royce.git
     targetRevision: HEAD
     path: test/apps/druid
-    helm:
-      releaseName: druid
-      valueFiles:
-        - values.yaml
+    directory:
+      jsonnet: {}
+      recurse: true
   destination:
     namespace: druid
     server: "https://kubernetes.default.svc"
