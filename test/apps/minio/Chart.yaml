@@ -1,0 +1,11 @@
+apiVersion: v2
+description: A Helm chart for the Minio operator
+name: minio-operator
+version: 4.3.5
+appVersion: 4.3.5
+type: application
+
+dependencies:
+  - name: minio-operator
+    version: 4.3.5
+    repository: https://operator.min.io/
