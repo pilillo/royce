@@ -1,0 +1,7 @@
+# https://github.com/argoproj/argocd-example-apps/blob/master/apps/Chart.yaml
+apiVersion: v2
+name: applications
+description: Applications
+type: application
+version: 0.1.0
+appVersion: "1.0"

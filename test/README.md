@@ -41,3 +41,6 @@ kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath="{.data.pa
 ```
 
 As visible, this step also sets up a root-app application.
+
+ArgoCD can be used to deploy either plain yaml files, Helm Charts, as well as a combination of Helm Charts and kustomize scripts.
+For the latter please have a look at the example [here](apps/kustomize-helm-example/kustomization.yaml).

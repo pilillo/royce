@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kustomize-helm-example
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pilillo/royce.git
+    targetRevision: HEAD
+    path: test/apps/kustomize-helm-example
+    plugin:
+      name: kustomized-helm
+      env:
+        - name: HELM_ARGS
+          value: "--values myvaluefile.yaml"
+  destination:
+    namespace: kustomize-helm-example
+    server: "https://kubernetes.default.svc"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
