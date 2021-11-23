@@ -10,9 +10,9 @@ spec:
     path: test/apps/kustomize-helm-example
     plugin:
       name: kustomized-helm
-      env:
-        - name: HELM_ARGS
-          value: "--values myvaluefile.yaml"
+      #env:
+      #  - name: HELM_ARGS
+      #    value: "--values myvaluefile.yaml"
   destination:
     namespace: kustomize-helm-example
     server: "https://kubernetes.default.svc"
