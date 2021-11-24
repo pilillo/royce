@@ -23,6 +23,10 @@ terragrunt run-all apply
 
 From then on, ArgoCD takes care of syncing the app folder with standard k8s yaml files.
 
+Wanna skip the EKS cloud setup? You can:  
+* use a local k8s cluster (e.g. `minikube start --memory 16000 --cpus 14`)
+* use EKS with [localstack](https://github.com/localstack/localstack) to simulate EKS and K8s
+
 ## Usage
 
 Place your argo-cd applications under the monitored `test/apps` folder.
