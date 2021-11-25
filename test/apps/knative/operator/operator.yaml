@@ -1347,7 +1347,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: config-logging
-  namespace: default
+  namespace: knative
   labels:
     operator.knative.dev/release: "v1.0.0"
     app.kubernetes.io/version: "1.0.0"
@@ -1411,7 +1411,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: config-observability
-  namespace: default
+  namespace: knative
   labels:
     operator.knative.dev/release: "v1.0.0"
     app.kubernetes.io/version: "1.0.0"
@@ -1515,7 +1515,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: knative-operator
-  namespace: default
+  namespace: knative
   labels:
     operator.knative.dev/release: "v1.0.0"
     app.kubernetes.io/name: knative-operator
@@ -1987,7 +1987,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: knative-operator
-    namespace: default
+    namespace: knative
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -2004,7 +2004,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: knative-operator
-    namespace: default
+    namespace: knative
 ---
 # TODO: Consider restriction of non-aggregated role to knativeeventing namespaces.
 apiVersion: rbac.authorization.k8s.io/v1
@@ -2022,7 +2022,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: knative-operator
-    namespace: default
+    namespace: knative
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -2039,7 +2039,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: knative-operator
-    namespace: default
+    namespace: knative
 
 ---
 # Copyright 2020 The Knative Authors
@@ -2060,7 +2060,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: knative-operator
-  namespace: default
+  namespace: knative
   labels:
     operator.knative.dev/release: "v1.0.0"
     app.kubernetes.io/version: "1.0.0"
