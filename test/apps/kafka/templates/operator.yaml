@@ -17154,13 +17154,8 @@ spec:
 ---
 kind: ConfigMap
 apiVersion: v1
-metadata:
-  name: strimzi-cluster-operator
-  labels:
-    app: strimzi
-  namespace: kafka
 data:
-  log4j2.properties: >
+  log4j2.properties: |
     name = COConfig
     monitorInterval = 30
 
@@ -17188,3 +17183,9 @@ data:
     logger.netty.name = io.netty
     logger.netty.level = INFO
     logger.netty.additivity = false
+    
+metadata:
+  name: strimzi-cluster-operator
+  labels:
+    app: strimzi
+  namespace: kafka
