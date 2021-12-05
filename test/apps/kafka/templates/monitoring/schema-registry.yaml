@@ -95,6 +95,8 @@ spec:
             value: SASL_SSL
           - name: SCHEMA_REGISTRY_KAFKASTORE_SASL_MECHANISM
             value: SCRAM-SHA-512
+          - name: SCHEMA_REGISTRY_KAFKASTORE_SASL_JAAS_CONFIG
+            value: "org.apache.kafka.common.security.scram.ScramLoginModule required \ username="<Secret Manager Credentials>" \ password="<Secret Manager Credentials>";
           - name: SCHEMA_REGISTRY_KAFKASTORE_TOPIC
             value: _schemas
           - name: SCHEMA_REGISTRY_KAFKASTORE_GROUP_ID
@@ -102,9 +104,11 @@ spec:
           - name: SCHEMA_REGISTRY_MASTER_ELIGIBILITY
             value: "true"
           - name: SCHEMA_REGISTRY_HEAP_OPTS
-            value: "-Xms512M -Xmx512M"
+            value: "-Xms512M -Xmx2G"
           - name: JMX_PORT
             value: "5555"
+          - name: SCHEMA_REGISTRY_DEBUG
+            value: "true"
       volumes:
       - name: jmx-config
         configMap:
