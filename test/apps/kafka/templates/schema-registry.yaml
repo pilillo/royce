@@ -64,8 +64,7 @@ spec:
           - /etc/jmx-schema-registry/jmx-schema-registry-prometheus.yml
           ports:
           - containerPort: 5556
-          resources:
-            {}
+          resources: {}
           volumeMounts:
           - name: jmx-config
             mountPath: /etc/jmx-schema-registry
