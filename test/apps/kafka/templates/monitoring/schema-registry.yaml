@@ -1,0 +1,169 @@
+
+# Generated using helm template from confluentinc/cp-helm-charts
+# more at https://github.com/manoj8928/kafka-schema-registry/blob/main/deployment.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: royce-schema-registry-jmx-configmap
+  labels:
+    app: schema-registry
+    release: royce
+data:
+  jmx-schema-registry-prometheus.yml: |+
+    jmxUrl: service:jmx:rmi:///jndi/rmi://localhost:5555/jmxrmi
+    lowercaseOutputName: true
+    lowercaseOutputLabelNames: true
+    ssl: false
+    whitelistObjectNames:
+    - kafka.schema.registry:type=jetty-metrics
+    - kafka.schema.registry:type=master-slave-role
+    - kafka.schema.registry:type=jersey-metrics
+    rules:
+    - pattern : 'kafka.schema.registry<type=jetty-metrics>([^:]+):'
+      name: "cp_kafka_schema_registry_jetty_metrics_$1"
+    - pattern : 'kafka.schema.registry<type=master-slave-role>([^:]+):'
+      name: "cp_kafka_schema_registry_master_slave_role"
+    - pattern : 'kafka.schema.registry<type=jersey-metrics>([^:]+):'
+      name: "cp_kafka_schema_registry_jersey_metrics_$1"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: royce-schema-registry
+  labels:
+    app: schema-registry
+    release: royce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: schema-registry
+      release: royce
+  template:
+    metadata:
+      labels:
+        app: schema-registry
+        release: royce
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "5556"
+    spec:
+      containers:
+        - name: prometheus-jmx-exporter
+          image: "solsson/kafka-prometheus-jmx-exporter@sha256:6f82e2b0464f50da8104acd7363fb9b995001ddff77d248379f8788e78946143"
+          imagePullPolicy: "IfNotPresent"
+          command:
+          - java
+          - -XX:+UnlockExperimentalVMOptions
+          - -XX:+UseCGroupMemoryLimitForHeap
+          - -XX:MaxRAMFraction=1
+          - -XshowSettings:vm
+          - -jar
+          - jmx_prometheus_httpserver.jar
+          - "5556"
+          - /etc/jmx-schema-registry/jmx-schema-registry-prometheus.yml
+          ports:
+          - containerPort: 5556
+          resources:
+            {}
+          volumeMounts:
+          - name: jmx-config
+            mountPath: /etc/jmx-schema-registry
+        - name: cp-schema-registry-server
+          image: "confluentinc/cp-schema-registry:7.0.0"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - name: schema-registry
+              containerPort: 8081
+              protocol: TCP
+            - containerPort: 5555
+              name: jmx
+          resources:
+            {}
+          env:
+          - name: SCHEMA_REGISTRY_HOST_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: SCHEMA_REGISTRY_LISTENERS
+            value: http://0.0.0.0:8081
+          #- name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+          #  value: PLAINTEXT://royce-kafka-bootstrap:9092
+          - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+            value: SASL_SSL://royce-kafka-bootstrap:9093
+          - name: SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL
+            value: SASL_SSL
+          - name: SCHEMA_REGISTRY_KAFKASTORE_SASL_MECHANISM
+            value: SCRAM-SHA-512
+          - name: SCHEMA_REGISTRY_KAFKASTORE_TOPIC
+            value: _schemas
+          - name: SCHEMA_REGISTRY_KAFKASTORE_GROUP_ID
+            value: royce
+          - name: SCHEMA_REGISTRY_MASTER_ELIGIBILITY
+            value: "true"
+          - name: SCHEMA_REGISTRY_HEAP_OPTS
+            value: "-Xms512M -Xmx512M"
+          - name: JMX_PORT
+            value: "5555"
+      volumes:
+      - name: jmx-config
+        configMap:
+          name: royce-schema-registry-jmx-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: royce-schema-registry
+  labels:
+    app: schema-registry
+    release: royce
+spec:
+  ports:
+    - name: schema-registry
+      port: 8081
+    - name: metrics
+      port: 5556
+  selector:
+    app: schema-registry
+    release: royce
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schema-registry-ui
+spec:
+  selector:
+    matchLabels:
+      app: schema-registry-ui 
+  template:
+    metadata:
+      labels:
+        app: schema-registry-ui
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - image: landoop/schema-registry-ui
+        imagePullPolicy: Always
+        name: schema-registry-ui
+        ports:
+        - containerPort: 8000
+          name: ui
+        env:
+        # the url for the schema registry service
+        - name: SCHEMAREGISTRY_URL
+          value: "http://royce-schema-registry:8081"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schema-registry-ui
+  labels:
+    app: schema-registry-ui
+spec:
+  type: ClusterIP
+  selector:
+    app: schema-registry-ui
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
