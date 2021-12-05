@@ -26,6 +26,14 @@ data:
     - pattern : 'kafka.schema.registry<type=jersey-metrics>([^:]+):'
       name: "cp_kafka_schema_registry_jersey_metrics_$1"
 ---
+#apiVersion: v1
+#kind: Secret
+#metadata:
+#  name: schema-registry-sasl
+#type: Opaque
+#data:
+#  sasl-jaas-config: dmFsdWU6ICJvcmcuYXBhY2hlLmthZmthLmNvbW1vbi5zZWN1cml0eS5zY3JhbS5TY3JhbUxvZ2luTW9kdWxlIHJlcXVpcmVkIHVzZXJuYW1lPSJ0ZXN0IiBwYXNzd29yZD0idGVzdCI7
+#---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -86,16 +94,19 @@ spec:
                 fieldPath: status.podIP
           - name: SCHEMA_REGISTRY_LISTENERS
             value: http://0.0.0.0:8081
-          #- name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
-          #  value: PLAINTEXT://royce-kafka-bootstrap:9092
           - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
-            value: SASL_SSL://royce-kafka-bootstrap:9093
-          - name: SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL
-            value: SASL_SSL
-          - name: SCHEMA_REGISTRY_KAFKASTORE_SASL_MECHANISM
-            value: SCRAM-SHA-512
+            value: PLAINTEXT://royce-kafka-bootstrap:9092
+          #- name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+          #  value: SASL_SSL://royce-kafka-bootstrap:9093
+          #- name: SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL
+          #  value: SASL_SSL
+          #- name: SCHEMA_REGISTRY_KAFKASTORE_SASL_MECHANISM
+          #  value: SCRAM-SHA-512
           #- name: SCHEMA_REGISTRY_KAFKASTORE_SASL_JAAS_CONFIG
-          #  value: "org.apache.kafka.common.security.scram.ScramLoginModule required \ username="<Secret Manager Credentials>" \ password="<Secret Manager Credentials>";
+          #  valueFrom:
+          #    secretKeyRef: 
+          #      name: schema-registry-sasl
+          #      key: sasl-jaas-config
           - name: SCHEMA_REGISTRY_KAFKASTORE_TOPIC
             value: _schemas
           - name: SCHEMA_REGISTRY_KAFKASTORE_GROUP_ID
