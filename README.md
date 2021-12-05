@@ -31,6 +31,14 @@ Wanna skip the EKS cloud setup? You can:
 
 Place your argo-cd applications under the monitored `test/apps` folder.
 
+If you are running locally without using terragrunt/terraform you can install argo-cd manually with:
+
+```
+kubectl apply -f namespace.yaml
+kubectl apply -n argocd -f install.yaml
+kubectl apply -n argocd -f root-app.yaml
+```
+
 ## Cleanup
 
 Go to the base module and run `terragrunt destroy` to delete the K8s cluster.
