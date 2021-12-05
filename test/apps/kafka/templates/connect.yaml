@@ -24,3 +24,59 @@ spec:
     config.storage.replication.factor: 3
     offset.storage.replication.factor: 3
     status.storage.replication.factor: 3
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connect-ui
+  labels:
+    app: connect-ui
+    release: royce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: connect-ui
+      release: royce
+  template:
+    metadata:
+      labels:
+        app: connect-ui
+        release: royce
+    spec:
+      containers:
+        - name: connect-ui
+          image: landoop/kafka-connect-ui:0.9.7
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          env:
+            - name: CONNECT_URL
+              value: "http://royce-connect-api:8083"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: connect-ui
+  labels:
+    app: connect-ui
+    release: royce
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: connect-ui
+    release: royce
