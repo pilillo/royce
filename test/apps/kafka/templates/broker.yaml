@@ -227,3 +227,59 @@ data:
       labels:
         replicaId: "$2"
         memberType: "$3"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zoonavigator
+  labels:
+    app: zoonavigator
+    release: royce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zoonavigator
+      release: royce
+  template:
+    metadata:
+      labels:
+        app: zoonavigator
+        release: royce
+    spec:
+      containers:
+        - name: zoonavigator
+          image: elkozmon/zoonavigator:1.1.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9000
+              name: http
+              protocol: TCP
+          env:
+            - name: HTTP_PORT
+              value: "9000"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zoonavigator
+  labels:
+    app: zoonavigator
+    release: royce
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9000
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: zoonavigator
+    release: royce
