@@ -69,14 +69,6 @@ spec:
       initLimit: 10
       syncLimit: 5
     jvmOptions:
-      '-XX':
-        ExplicitGCInvokesConcurrent: true
-        InitiatingHeapOccupancyPercent: 35
-        MaxGCPauseMillis: 20
-        UnlockExperimentalVMOptions: true
-        UseCGroupMemoryLimitForHeap: true
-        UseG1GC: true
-        UseParNewGC: false
       '-Xms': 2048m
       '-Xmx': 512M
   entityOperator:
