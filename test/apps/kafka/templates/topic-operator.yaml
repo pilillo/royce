@@ -347,7 +347,8 @@ spec:
               value: royce-kafka-bootstrap:9092
             - name: STRIMZI_ZOOKEEPER_CONNECT
               #value: royce-zookeeper-client:2181
-              value: royce-zookeeper-nodes:2181
+              value: royce-zookeeper-client.kafka.svc.cluster.local:2181
+              #value: royce-zookeeper-nodes:2181
             - name: STRIMZI_ZOOKEEPER_SESSION_TIMEOUT_MS
               value: "18000"
             - name: STRIMZI_FULL_RECONCILIATION_INTERVAL_MS
