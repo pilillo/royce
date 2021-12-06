@@ -58,6 +58,27 @@ spec:
         configMapKeyRef:
           name: kafka-metrics
           key: zookeeper-metrics-config.yml
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 3072Mi
+      requests:
+        cpu: 500m
+        memory: 1536Mi
+    config:
+      initLimit: 10
+      syncLimit: 5
+    jvmOptions:
+      '-XX':
+        ExplicitGCInvokesConcurrent: true
+        InitiatingHeapOccupancyPercent: 35
+        MaxGCPauseMillis: 20
+        UnlockExperimentalVMOptions: true
+        UseCGroupMemoryLimitForHeap: true
+        UseG1GC: true
+        UseParNewGC: false
+      '-Xms': 2048m
+      '-Xmx': 512M
   entityOperator:
     topicOperator: {}
     userOperator: {}
