@@ -69,8 +69,8 @@ spec:
       initLimit: 10
       syncLimit: 5
     jvmOptions:
-      '-Xms': 2048m
-      '-Xmx': 512M
+      '-Xms': 512M
+      '-Xmx': 2048M
   entityOperator:
     topicOperator: {}
     userOperator: {}
