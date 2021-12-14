@@ -15,6 +15,10 @@ spec:
         port: 9093
         type: internal
         tls: true
+        authentication:
+          type: tls
+    authorization:
+      type: simple
     readinessProbe:
       initialDelaySeconds: 15
       timeoutSeconds: 5
@@ -58,19 +62,19 @@ spec:
         configMapKeyRef:
           name: kafka-metrics
           key: zookeeper-metrics-config.yml
-    resources:
-      limits:
-        cpu: 2000m
-        memory: 3072Mi
-      requests:
-        cpu: 500m
-        memory: 1536Mi
-    config:
-      initLimit: 10
-      syncLimit: 5
-    jvmOptions:
-      '-Xms': 512m
-      '-Xmx': 2048m
+    #resources:
+    #  limits:
+    #    cpu: 2000m
+    #    memory: 3072Mi
+    #  requests:
+    #    cpu: 500m
+    #    memory: 1536Mi
+    #config:
+    #  initLimit: 10
+    #  syncLimit: 5
+    #jvmOptions:
+    #  '-Xms': 512m
+    #  '-Xmx': 2048m
   entityOperator:
     topicOperator: {}
     userOperator: {}
