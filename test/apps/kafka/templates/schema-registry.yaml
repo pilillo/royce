@@ -148,7 +148,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: schema-registry-ui 
+      app: schema-registry-ui
   template:
     metadata:
       labels:
@@ -160,8 +160,9 @@ spec:
         imagePullPolicy: Always
         name: schema-registry-ui
         ports:
-        - containerPort: 8000
-          name: ui
+        - name: ui
+          containerPort: 8000
+          protocol: TCP
         env:
         # the url for the schema registry service
         - name: SCHEMAREGISTRY_URL
@@ -175,9 +176,8 @@ metadata:
     app: schema-registry-ui
 spec:
   type: ClusterIP
+  ports:
+  - name: ui
+    port: 8000
   selector:
     app: schema-registry-ui
-  ports:
-  - protocol: TCP
-    port: 8000
-    targetPort: 8000
