@@ -8,7 +8,7 @@
 ```
 
 Example setup for a K8s cluster (EKS) with ArgoCD as a GitOps controller.  
-Royce can be used to quickly get started with a Kappa architecture on K8s.
+Royce can be used to quickly get started with a Kappa architecture and event-based serving on K8s.
 
 ## Disclaimer
 This is a PoC and not production ready. 
@@ -38,6 +38,49 @@ kubectl apply -f namespace.yaml
 kubectl apply -n argocd -f install.yaml
 kubectl apply -n argocd -f root-app.yaml
 ```
+
+## Ingress controller
+
+Knative-serving is used to manage serverless services and ramps up an ingress controller (e.g., istio).  
+To expose the routes you need to firstly retrieve the load balancer external ip, e.g. for istio:
+
+```bash
+kubectl get svc -n istio-system istio-ingressgateway
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                      AGE
+istio-ingressgateway   LoadBalancer   10.104.238.19   10.104.238.19   15021:32001/TCP,80:31789/TCP,443:32644/TCP   21d
+```
+
+or for kourier:
+```bash
+kubectl get svc -n kourier-system kourier -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+```
+
+Mind that, on local development clusters, a component such as metallb (or alternatively `minikube tunnel` on minikube) can be used to assign local IP addresses to load balancer services. The external IP needs to be retrieved and can be added as a magic DNS name to the knative-serving config map (either with an apply or a patch):
+```bash
+INGRESS_IP=$(kubectl get svc -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+KNATIVE_DOMAIN="${INGRESS_IP}.sslip.io"
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+data:
+  ${KNATIVE_DOMAIN}: ""
+kind: ConfigMap
+metadata:
+  name: config-domain
+  namespace: knative-serving
+EOF
+```
+
+The kn route can now be called with:
+```bash
+$ kn route list
+NAME    URL                                                   READY
+hello   http://hello.knative-serving.10.104.238.19.sslip.io   True
+$ curl http://hello.knative-serving.10.104.238.19.sslip.io
+Hello World!
+```
+
+When managed by argocd, you should avoid manual patching and apply the configuration directly in the `serving-core.yaml`.
 
 ## Cleanup
 
