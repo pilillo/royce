@@ -584,7 +584,7 @@ data:
     kafka:
       authSecretName: kafka-cluster
       authSecretNamespace: knative-eventing
-      brokers: royce-kafka-bootstrap.svc.kafka.cluster.local:9092
+      brokers: royce-kafka-bootstrap.kafka.svc.cluster.local:9092
     channel:
       adminType: kafka # One of "kafka", "azure", "custom"
       dispatcher:
