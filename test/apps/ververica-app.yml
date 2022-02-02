@@ -14,6 +14,7 @@ spec:
         - values.yaml
         - values-vvp-add-metrics.yaml
         #- values-vvp-add-logging.yaml
+        - vvp-values.yaml
   destination:
     namespace: ververica
     server: "https://kubernetes.default.svc"

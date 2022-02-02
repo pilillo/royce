@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+    {{ include "vp-k8s-operator.labels" . | nindent 4 }}
+  name: {{ template "vp-k8s-operator.name" . }}-controller-manager-metrics-service
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+      {{- if .Values.rbacProxy.enabled }}
+    - name: https
+      port: {{ .Values.rbacProxy.port }}
+      targetPort: https
+      {{- end }}
+    - name: http
+      port: {{ .Values.metricsPort }}
+      targetPort: http
+  selector:
+    control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+{{- if .Values.metricsMonitorEnabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+    {{ include "vp-k8s-operator.labels" . | nindent 4 }}
+    {{- if .Values.metricsMonitorLabels }}
+    {{ toYaml .Values.metricsMonitorLabels | nindent 4 }}
+    {{- end }}
+  name: {{ template "vp-k8s-operator.name" . }}-controller-manager-metrics-monitor
+  namespace: {{ default .Values.metricsMonitorNamespace .Release.Namespace }}
+spec:
+  endpoints:
+  - path: /metrics
+     {{- if .Values.rbacProxy.enabled }}
+    port: https
+     {{- else }}
+    port: http
+     {{- end }}
+  selector:
+    matchLabels:
+      control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+      {{ include "vp-k8s-operator.labels" . | nindent 6 }}
+{{- end }}
