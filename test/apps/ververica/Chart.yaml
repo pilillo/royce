@@ -15,6 +15,6 @@ dependencies:
   - name: vvp-k8s-operator
     version: "0.12.1"
     repository: "file://charts/vp-k8s-operator"
-  - name: vvp-k8s-operator-crd
+  - name: vvp-k8s-operator-crds
     version: "0.2.2"
-    repository: "file://charts/vp-k8s-operator-crd"
+    repository: "file://charts/vp-k8s-operator-crds"
