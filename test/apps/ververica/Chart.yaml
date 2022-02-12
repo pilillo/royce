@@ -12,10 +12,9 @@ dependencies:
   - name: ververica-platform
     version: 5.2.0
     repository: https://charts.ververica.com
-  # deployment as local charts seems not to work
-  #- name: vvp-k8s-operator
-  #  version: "0.12.1"
-  #  repository: "file://./charts/vp-k8s-operator"
-  #- name: vvp-k8s-operator-crds
-  #  version: "0.2.2"
-  #  repository: "file://./charts/vp-k8s-operator-crds"
+  - name: vvp-k8s-operator
+    version: 0.12.1
+    repository: https://pilillo.github.io/ververica-platform-k8s-operator
+  - name: vvp-k8s-operator-crds
+    version: 0.2.2
+    repository: https://pilillo.github.io/ververica-platform-k8s-operator
