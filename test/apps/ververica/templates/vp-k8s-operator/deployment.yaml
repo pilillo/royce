@@ -23,10 +23,10 @@ spec:
         - name: kube-rbac-proxy
           image: {{ ".Values.vp-k8s-operator.rbacProxy.imageRepository" }}:{{ ".Values.vp-k8s-operator.rbacProxy.imageTag" }}
           args:
-            - --secure-listen-address=0.0.0.0:{{ .Values.rbacProxy.port }}
-            - --upstream=http://{{.Values.metricsHost}}:{{.Values.metricsPort}}/
+            - --secure-listen-address=0.0.0.0:{{ ".Values.vp-k8s-operator.rbacProxy.port" }}
+            - --upstream=http://{{".Values.vp-k8s-operator.metricsHost"}}:{{".Values.vp-k8s-operator.metricsPort"}}/
             - --logtostderr=true
-            - --v={{ .Values.rbacProxy.logLevel }}
+            - --v={{ ".Values.vp-k8s-operator.rbacProxy.logLevel" }}
           ports:
             - containerPort: {{ ".Values.vp-k8s-operator.rbacProxy.port" }}
               name: https
