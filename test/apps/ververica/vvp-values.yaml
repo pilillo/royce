@@ -29,7 +29,7 @@ vvp-k8s-operator:
 
   # Whether or not to create CertManager certs for webhook serving
   certs:
-    enabled: true
+    enabled: false
     # If not enabled, must specify another secret with the certificates
     # existingSecret: "secret-name"
 
