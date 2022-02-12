@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pilillo/royce.git
+    targetRevision: HEAD
+    path: test/apps/cert-manager
+    directory:
+      jsonnet: {}
+      recurse: true
+  destination:
+    namespace: cert-manager
+    server: "https://kubernetes.default.svc"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
