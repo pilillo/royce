@@ -1,4 +1,4 @@
-{{- if .Values.certs.enabled }}
+{{- if ".Values.vp-k8s-operator.certs.enabled" }}
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
