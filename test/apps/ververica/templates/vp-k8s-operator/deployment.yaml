@@ -39,9 +39,9 @@ spec:
             - --metrics-addr={{".Values.vp-k8s-operator.metricsHost"}}:{{".Values.vp-k8s-operator.metricsPort"}}
             - --vvp-url={{ ".Values.vp-k8s-operator.vvpUrl" }}
             - --vvp-edition={{ ".Values.vp-k8s-operator.vvpEdition" }}
-            {{- if ".Values.vp-k8s-operator.extraArgs" }}
-            {{ toYaml ".Values.vp-k8s-operator.extraArgs" | nindent 12 }}
-            {{- end }}
+            #{{- if ".Values.vp-k8s-operator.extraArgs" }}
+            #{{ toYaml ".Values.vp-k8s-operator.extraArgs" | nindent 12 }}
+            #{{- end }}
           ports:
             - containerPort: 443
               name: webhook-server
