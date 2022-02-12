@@ -18,7 +18,7 @@ spec:
   conversion:
     strategy: Webhook
     webhookClientConfig:
-      caBundle: {{ include "vp-k8s-operator-crds.webhookCaBundle" . }}
+      #caBundle: {{ include "vp-k8s-operator-crds.webhookCaBundle" . }}
       service:
         name: {{ ".Values.vp-k8s-operator-crds.webhookService.name" }}
         namespace: {{ default .Release.Namespace ".Values.vp-k8s-operator-crds.webhookService.namespace" }}
