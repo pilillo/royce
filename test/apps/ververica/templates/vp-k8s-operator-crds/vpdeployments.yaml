@@ -32,8 +32,8 @@ spec:
     webhookClientConfig:
       caBundle: {{ include "vp-k8s-operator-crds.webhookCaBundle" . }}
       service:
-        name: {{ .Values.vp-k8s-operator-crds.webhookService.name }}
-        namespace: {{ default .Release.Namespace .Values.vp-k8s-operator-crds.webhook.Service.namespace }}
+        name: {{ ".Values.vp-k8s-operator-crds.webhookService.name" }}
+        namespace: {{ default .Release.Namespace ".Values.vp-k8s-operator-crds.webhook.Service.namespace" }}
         path: /convert
   group: ververicaplatform.fintechstudios.com
   names:

@@ -19,36 +19,36 @@ spec:
         control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
     spec:
       containers:
-          {{- if .Values.rbacProxy.enabled }}
+          {{- if ".Values.vp-k8s-operator.rbacProxy.enabled" }}
         - name: kube-rbac-proxy
-          image: {{ .Values.rbacProxy.imageRepository }}:{{ .Values.rbacProxy.imageTag }}
+          image: {{ ".Values.vp-k8s-operator.rbacProxy.imageRepository" }}:{{ .Values.rbacProxy.imageTag }}
           args:
             - --secure-listen-address=0.0.0.0:{{ .Values.rbacProxy.port }}
             - --upstream=http://{{.Values.metricsHost}}:{{.Values.metricsPort}}/
             - --logtostderr=true
             - --v={{ .Values.rbacProxy.logLevel }}
           ports:
-            - containerPort: {{ .Values.rbacProxy.port }}
+            - containerPort: {{ ".Values.vp-k8s-operator.rbacProxy.port" }}
               name: https
           {{- end }}
         - name: manager
-          image: {{ .Values.imageRepository }}:{{ .Values.imageTag }}
-          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          image: {{ ".Values.vp-k8s-operator.imageRepository" }}:{{ .Values.imageTag }}
+          imagePullPolicy: {{ ".Values.vp-k8s-operator.imagePullPolicy" }}
           command:
             - /manager
           args:
             - --metrics-addr={{.Values.metricsHost}}:{{.Values.metricsPort}}
             - --vvp-url={{ .Values.vvpUrl }}
             - --vvp-edition={{ .Values.vvpEdition }}
-            {{- if .Values.extraArgs }}
-            {{ toYaml .Values.extraArgs | nindent 12 }}
+            {{- if ".Values.vp-k8s-operator.extraArgs" }}
+            {{ toYaml ".Values.vp-k8s-operator.extraArgs" | nindent 12 }}
             {{- end }}
           ports:
             - containerPort: 443
               name: webhook-server
               protocol: TCP
           resources:
-            {{ toYaml .Values.resources | nindent 12 }}
+            {{ toYaml ".Values.vp-k8s-operator.resources" | nindent 12 }}
           volumeMounts:
             - mountPath: /tmp/k8s-webhook-server/serving-certs
               name: cert
