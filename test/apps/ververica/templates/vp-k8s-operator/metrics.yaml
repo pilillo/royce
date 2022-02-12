@@ -24,7 +24,6 @@ kind: ServiceMonitor
 metadata:
   labels:
     control-plane: vp-k8s-operator-controller-manager
-    {{ include "vp-k8s-operator.labels" . | nindent 4 }}
     {{ if ".Values.vp-k8s-operator.metricsMonitorLabels" }}
     {{ toYaml ".Values.vp-k8s-operator.metricsMonitorLabels" | nindent 4 }}
     {{ end }}
