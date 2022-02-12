@@ -7,11 +7,11 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-      {{ if ".Values.vp-k8s-operator.rbacProxy.enabled" }}
+    {{ if ".Values.vp-k8s-operator.rbacProxy.enabled" }}
     - name: https
       port: {{ ".Values.vp-k8s-operator.rbacProxy.port" }}
       targetPort: https
-      {{ end }}
+    {{ end }}
     - name: http
       port: {{ ".Values.vp-k8s-operator.metricsPort" }}
       targetPort: http
