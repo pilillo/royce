@@ -21,7 +21,7 @@ spec:
       containers:
           {{- if ".Values.vp-k8s-operator.rbacProxy.enabled" }}
         - name: kube-rbac-proxy
-          image: {{ ".Values.vp-k8s-operator.rbacProxy.imageRepository" }}:{{ .Values.rbacProxy.imageTag }}
+          image: {{ ".Values.vp-k8s-operator.rbacProxy.imageRepository" }}:{{ ".Values.vp-k8s-operator.rbacProxy.imageTag" }}
           args:
             - --secure-listen-address=0.0.0.0:{{ .Values.rbacProxy.port }}
             - --upstream=http://{{.Values.metricsHost}}:{{.Values.metricsPort}}/
@@ -32,14 +32,14 @@ spec:
               name: https
           {{- end }}
         - name: manager
-          image: {{ ".Values.vp-k8s-operator.imageRepository" }}:{{ .Values.imageTag }}
+          image: {{ ".Values.vp-k8s-operator.imageRepository" }}:{{ ".Values.vp-k8s-operator.imageTag" }}
           imagePullPolicy: {{ ".Values.vp-k8s-operator.imagePullPolicy" }}
           command:
             - /manager
           args:
-            - --metrics-addr={{.Values.metricsHost}}:{{.Values.metricsPort}}
-            - --vvp-url={{ .Values.vvpUrl }}
-            - --vvp-edition={{ .Values.vvpEdition }}
+            - --metrics-addr={{".Values.vp-k8s-operator.metricsHost"}}:{{".Values.vp-k8s-operator.metricsPort"}}
+            - --vvp-url={{ ".Values.vp-k8s-operator.vvpUrl" }}
+            - --vvp-edition={{ ".Values.vp-k8s-operator.vvpEdition" }}
             {{- if ".Values.vp-k8s-operator.extraArgs" }}
             {{ toYaml ".Values.vp-k8s-operator.extraArgs" | nindent 12 }}
             {{- end }}
@@ -58,8 +58,8 @@ spec:
         - name: cert
           secret:
             defaultMode: 420
-            {{- if .Values.certs.enabled }}
+            {{- if ".Values.vp-k8s-operator.certs.enabled" }}
             secretName: {{ template "vp-k8s-operator.fullname" . }}-webhook-server-cert
             {{- else }}
-            secretName: {{ .Values.certs.existingSecret }}
+            secretName: {{ ".Values.vp-k8s-operator.certs.existingSecret" }}
             {{- end }}
