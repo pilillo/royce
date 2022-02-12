@@ -4,8 +4,7 @@ kind: Certificate
 metadata:
   name: vp-k8s-operator-serving-cert
   namespace: {{.Release.Namespace}}
-  labels:
-    {{ include "vp-k8s-operator.labels" . | nindent 4 }}
+  #labels: {}
 spec:
   commonName: vp-k8s-operator-webhook-service.{{.Release.Namespace}}.svc
   dnsNames:
@@ -21,8 +20,7 @@ kind: Issuer
 metadata:
   name: vp-k8s-operator-selfsigned-issuer
   namespace: {{ .Release.Namespace }}
-  labels:
-    {{ include "vp-k8s-operator.labels" . | nindent 4 }}
+  #labels: {}
 spec:
   selfSigned: {}
 {{- end }}

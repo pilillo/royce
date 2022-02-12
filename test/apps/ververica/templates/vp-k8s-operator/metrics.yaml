@@ -3,7 +3,6 @@ kind: Service
 metadata:
   labels:
     control-plane: vp-k8s-operator-controller-manager
-    {{ include "vp-k8s-operator.labels" . | nindent 4 }}
   name: vp-k8s-operator-controller-manager-metrics-service
   namespace: {{ .Release.Namespace }}
 spec:

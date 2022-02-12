@@ -5,7 +5,6 @@ metadata:
     app: "vp-k8s-operator"
     chart: "vp-k8s-operator-0.2.2"
     control-plane: vp-k8s-operator-controller-manager
-    {{ include "vp-k8s-operator.labels" . | nindent 4 }}
   name: vp-k8s-operator-controller-manager
   namespace: {{ .Release.Namespace }}
 spec:
