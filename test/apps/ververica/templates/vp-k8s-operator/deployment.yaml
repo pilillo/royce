@@ -18,7 +18,7 @@ spec:
         control-plane: vp-k8s-operator-controller-manager
     spec:
       containers:
-          {{- if ".Values.vp-k8s-operator.rbacProxy.enabled" }}
+        {{- if ".Values.vp-k8s-operator.rbacProxy.enabled" }}
         - name: kube-rbac-proxy
           image: {{ ".Values.vp-k8s-operator.rbacProxy.imageRepository" }}:{{ ".Values.vp-k8s-operator.rbacProxy.imageTag" }}
           args:
@@ -29,7 +29,7 @@ spec:
           ports:
             - containerPort: {{ ".Values.vp-k8s-operator.rbacProxy.port" }}
               name: https
-          {{- end }}
+        {{- end }}
         - name: manager
           image: {{ ".Values.vp-k8s-operator.imageRepository" }}:{{ ".Values.vp-k8s-operator.imageTag" }}
           imagePullPolicy: {{ ".Values.vp-k8s-operator.imagePullPolicy" }}
