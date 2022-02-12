@@ -12,9 +12,9 @@ dependencies:
   - name: ververica-platform
     version: 5.2.0
     repository: https://charts.ververica.com
-  - name: pilillo-ververica-operator/vp-k8s-operator
-    version: 0.12.1
+  - name: vp-k8s-operator
+    version: "0.12.1"
     repository: https://pilillo.github.io/ververica-platform-k8s-operator
-  - name: pilillo-ververica-operator/vp-k8s-operator-crds
-    version: 0.2.2
+  - name: vp-k8s-operator-crds
+    version: "0.2.2"
     repository: https://pilillo.github.io/ververica-platform-k8s-operator
