@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+    control-plane: vp-k8s-operator-controller-manager
     {{ include "vp-k8s-operator.labels" . | nindent 4 }}
-  name: {{ template "vp-k8s-operator.name" . }}-controller-manager-metrics-service
+  name: vp-k8s-operator-controller-manager-metrics-service
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
@@ -17,19 +17,19 @@ spec:
       port: {{ ".Values.vp-k8s-operator.metricsPort" }}
       targetPort: http
   selector:
-    control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+    control-plane: vp-k8s-operator-controller-manager
 {{ if ".Values.vp-k8s-operator.metricsMonitorEnabled" }}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+    control-plane: vp-k8s-operator-controller-manager
     {{ include "vp-k8s-operator.labels" . | nindent 4 }}
     {{ if ".Values.vp-k8s-operator.metricsMonitorLabels" }}
     {{ toYaml ".Values.vp-k8s-operator.metricsMonitorLabels" | nindent 4 }}
     {{ end }}
-  name: {{ template "vp-k8s-operator.name" . }}-controller-manager-metrics-monitor
+  name: vp-k8s-operator-controller-manager-metrics-monitor
   namespace: {{ default ".Values.vp-k8s-operator.metricsMonitorNamespace" .Release.Namespace }}
 spec:
   endpoints:
@@ -41,6 +41,6 @@ spec:
      {{ end }}
   selector:
     matchLabels:
-      control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+      control-plane: vp-k8s-operator-controller-manager
       {{ include "vp-k8s-operator.labels" . | nindent 6 }}
 {{ end }}

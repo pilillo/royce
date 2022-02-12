@@ -4,7 +4,7 @@ metadata:
   name: vpdeploymenttargets.ververicaplatform.fintechstudios.com
   creationTimestamp: null
   annotations:
-    cert-manager.io/inject-ca-from: {{ template "vp-k8s-operator-crds.webhookCert" . }}
+    cert-manager.io/inject-ca-from: vp-k8s-operator-crds
     controller-gen.kubebuilder.io/version: v0.2.4
 spec:
   preserveUnknownFields: false

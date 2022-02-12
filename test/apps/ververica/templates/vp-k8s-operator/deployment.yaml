@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ template "vp-k8s-operator.fullname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+    app: "vp-k8s-operator"
+    chart: "vp-k8s-operator-0.2.2"
+    control-plane: vp-k8s-operator-controller-manager
     {{ include "vp-k8s-operator.labels" . | nindent 4 }}
-  name: {{ template "vp-k8s-operator.fullname" . }}-controller-manager
+  name: vp-k8s-operator-controller-manager
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+      control-plane: vp-k8s-operator-controller-manager
   template:
     metadata:
       labels:
-        control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
+        control-plane: vp-k8s-operator-controller-manager
     spec:
       containers:
           {{- if ".Values.vp-k8s-operator.rbacProxy.enabled" }}
@@ -59,7 +59,7 @@ spec:
           secret:
             defaultMode: 420
             {{- if ".Values.vp-k8s-operator.certs.enabled" }}
-            secretName: {{ template "vp-k8s-operator.fullname" . }}-webhook-server-cert
+            secretName: vp-k8s-operator-webhook-server-cert
             {{- else }}
             secretName: {{ ".Values.vp-k8s-operator.certs.existingSecret" }}
             {{- end }}

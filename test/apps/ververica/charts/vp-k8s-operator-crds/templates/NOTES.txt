@@ -1,5 +1,0 @@
-# Ververica Platform Kubernetes Operator CRDs
-
-See the available CRDs:
-
-  kubectl get crds | grep ververicaplatform
