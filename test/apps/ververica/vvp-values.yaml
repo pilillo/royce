@@ -1,5 +1,9 @@
-vvp-k8s-operator-crd:
+vvp-k8s-operator-crds:
   vvpEdition: community
+  webhookCert:
+    name: vp-k8s-operator-serving-cert
+  webhookService:
+    name: vp-k8s-operator-webhook-service
 
 vvp-k8s-operator:
   rbac:
