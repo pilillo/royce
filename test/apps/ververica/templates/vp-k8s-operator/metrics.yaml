@@ -8,17 +8,17 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-      {{- if .Values.vp-k8s-operator.rbacProxy.enabled }}
+      {{ if ".Values.vp-k8s-operator.rbacProxy.enabled" }}
     - name: https
-      port: {{ .Values.vp-k8s-operator.rbacProxy.port }}
+      port: {{ ".Values.vp-k8s-operator.rbacProxy.port" }}
       targetPort: https
-      {{- end }}
+      {{ end }}
     - name: http
-      port: {{ .Values.vp-k8s-operator.metricsPort }}
+      port: {{ ".Values.vp-k8s-operator.metricsPort" }}
       targetPort: http
   selector:
     control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
-{{- if .Values.vp-k8s-operator.metricsMonitorEnabled }}
+{{ if ".Values.vp-k8s-operator.metricsMonitorEnabled" }}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -26,21 +26,21 @@ metadata:
   labels:
     control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
     {{ include "vp-k8s-operator.labels" . | nindent 4 }}
-    {{- if .Values.vp-k8s-operator.metricsMonitorLabels }}
-    {{ toYaml .Values.vp-k8s-operator.metricsMonitorLabels | nindent 4 }}
-    {{- end }}
+    {{ if ".Values.vp-k8s-operator.metricsMonitorLabels" }}
+    {{ toYaml ".Values.vp-k8s-operator.metricsMonitorLabels" | nindent 4 }}
+    {{ end }}
   name: {{ template "vp-k8s-operator.name" . }}-controller-manager-metrics-monitor
-  namespace: {{ default .Values.vp-k8s-operator.metricsMonitorNamespace .Release.Namespace }}
+  namespace: {{ default ".Values.vp-k8s-operator.metricsMonitorNamespace" .Release.Namespace }}
 spec:
   endpoints:
   - path: /metrics
-     {{- if .Values.rbacProxy.enabled }}
+     {{ if ".Values.vp-k8s-operator.rbacProxy.enabled" }}
     port: https
-     {{- else }}
+     {{ else }}
     port: http
-     {{- end }}
+     {{ end }}
   selector:
     matchLabels:
       control-plane: {{ template "vp-k8s-operator.name" . }}-controller-manager
       {{ include "vp-k8s-operator.labels" . | nindent 6 }}
-{{- end }}
+{{ end }}
